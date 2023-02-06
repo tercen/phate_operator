@@ -7,39 +7,64 @@ import numpy as np
 # Cannot handle the table from the Embryod example...
 def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   #, '.ri'
-  df = tercenCtx.select(['.y', '.ci', '.ri'])
+  sdf = tercenCtx.select_sparse(wide=True)
   
-  dfCol = tercenCtx.cselect(tercenCtx.context.cnames)
-  dfCol[".ci"] = range(0, len(dfCol) )
-  dfRow = tercenCtx.rselect(tercenCtx.context.rnames)
-  dfRow[".ri"] = range(0, len(dfRow) )
+  # dfCol = tercenCtx.cselect(tercenCtx.context.cnames)
+  # dfCol[".ci"] = range(0, len(dfCol) )
+  # dfRow = tercenCtx.rselect(tercenCtx.context.rnames)
+  # dfRow[".ri"] = range(0, len(dfRow) )
+
+  # y = ssp.csr_matrix(tercenCtx.select(['.y']))
+  # col = y.nonzero()[0]
+  
+
+  # df = ssp.csr_matrix(tercenCtx.select(['.y', '.ci', '.ri']))
+  # lines = df[:,0].nonzero()[0]
+  # cols = df[:,1].toarray()[list(lines)].flatten()
+  # rows = df[:,2].toarray()[list(lines)].flatten()
+  # y   = df[:,0].toarray()[list(lines)].flatten()
+
+  # # y.eliminate_zeros()
+  # # df.eliminate_zeros()
+  
+  # col_u = np.unique(list(np.sort(df[".ci"].values)))
+  # row_u = np.unique(list(np.sort(df[".ri"].values)))
+  
+  # # col_u = np.unique(list(np.sort(df[:,0].data)))
+  # # row_u = np.unique(list(np.sort(df[:,1].data)))
+
+  # # col_u = np.unique(list((col)))
+  # # row_u = np.unique(list((row)))
+
+  # # sdf = ssp.csr_matrix((y.data, (row, col)), shape=(len(row_u), len(col_u)))
+  # sdf = ssp.csr_matrix((y, (rows, cols)), shape=(int(rows.max()+1), int(cols.max()+1)))
+  # sdf = ssp.csr_matrix((df[".y"], (df[".ri"], df[".ci"])), shape=(rows.max(), cols.max()))
 
 
-  # FIXME Cannot handle multi-level columns
-  # To fix that, a new column must be added to dfCol which joins the other column values
-  df['GeneID'] = df['.ci'].map(dfCol.set_index('.ci')[tercenCtx.context.cnames[0]])
-  df['Seq'] = df['.ri'].map(dfRow.set_index('.ri')[tercenCtx.context.rnames[0]])
-  # df = df.drop([".ci"], axis=1)
-  # df = df.drop([".ri"], axis=1)
+  # # # FIXME Cannot handle multi-level columns
+  # # # To fix that, a new column must be added to dfCol which joins the other column values
+  # df['GeneID'] = df['.ci'].map(dfCol.set_index('.ci')[tercenCtx.context.cnames[0]])
+  # df['Seq'] = df['.ri'].map(dfRow.set_index('.ri')[tercenCtx.context.rnames[0]])
+  # # df = df.drop([".ci"], axis=1)
+  # # df = df.drop([".ri"], axis=1)
 
   
-  # 26067884
-  dfPvt = pd.pivot_table( df, values=".y", 
-            index="Seq", columns="GeneID")
+  # # 26067884
+  # dfPvt = pd.pivot_table( sdf )
 
-  dfPvt = dfPvt.replace(np.NaN, 0)
+  # dfPvt = dfPvt.replace(np.NaN, 0)
 
   phateModel = phate.PHATE()
   # Y_phate = phateModel.fit_transform(dfPvt) 
 
-  dfOut = pd.DataFrame( phateModel.fit_transform(dfPvt) )
+  dfOut = pd.DataFrame( phateModel.fit_transform( sdf ))
 
 
   
   dfOut.columns = ["PHATE_1", "PHATE_2"]
 
   # dfOut[".ci"] = df[".ci"]
-  dfOut[".ri"] = df[".ri"] #range(0, len(dfOut))
+  dfOut[".ri"] = range(0, len(dfOut))
   # dfOut["Batch"] = df["Batch"] #range(0, len(dfOut))
 
   
