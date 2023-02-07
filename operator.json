@@ -4,7 +4,7 @@
   "tags": ["dimension reduction"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/phate_operator"],
-  "container":"tercen/phate_operator:0.0.3",  
+  "container":"tercen/phate_operator:0.0.4",  
   "properties": []
 }
 

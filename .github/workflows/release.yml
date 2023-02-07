@@ -24,6 +24,21 @@ jobs:
         run: |
           echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=tercen/${{ github.event.repository.name }}" >> $GITHUB_ENV
+      - name: Check docker image name
+        run: |
+          jq '.container' operator.json | grep -q "$DOCKER_IMAGE:$TAG"
+      - name: Build docker image
+        run: |
+          docker build -t $DOCKER_IMAGE:$TAG .
+      - name: docker login
+        run: |
+          docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: docker push
+        run: |
+          docker push $DOCKER_IMAGE:$TAG
+          docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest
+          docker push $DOCKER_IMAGE:latest
       - uses: tercen/tercen_action@0.1.1
       - name: Install client dependencies
         run: |
