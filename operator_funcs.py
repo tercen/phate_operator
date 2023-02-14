@@ -64,7 +64,7 @@ def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   dfOut.columns = ["PHATE_1", "PHATE_2"]
 
   # dfOut[".ci"] = df[".ci"]
-  dfOut[".ci"] = np.ndarray.astype(np.asarray(range(0, sdf.shape[1])), np.int32)
+  dfOut[".ci"] = np.ndarray.astype(np.asarray(range(0, sdf.shape[0])), np.int32)
   # dfOut["Batch"] = df["Batch"] #range(0, len(dfOut))
 
   sdf.shape
