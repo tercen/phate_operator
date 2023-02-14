@@ -8,7 +8,7 @@ import numpy as np
 def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   #, '.ri'
   sdf = tercenCtx.select_sparse(wide=True)
-  
+    
   # dfCol = tercenCtx.cselect(tercenCtx.context.cnames)
   # dfCol[".ci"] = range(0, len(dfCol) )
   # dfRow = tercenCtx.rselect(tercenCtx.context.rnames)
@@ -64,7 +64,7 @@ def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   dfOut.columns = ["PHATE_1", "PHATE_2"]
 
   # dfOut[".ci"] = df[".ci"]
-  dfOut[".ri"] = range(0, len(dfOut))
+  dfOut[".ri"] = np.ndarray.astype(np.asarray(range(0, len(dfOut))), np.int32)
   # dfOut["Batch"] = df["Batch"] #range(0, len(dfOut))
 
   
