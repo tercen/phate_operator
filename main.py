@@ -3,8 +3,8 @@ import tercen.util.helper_functions as utl
 
 from operator_funcs import fit_phate
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d
-# http://127.0.0.1:5400/test/w/047abdf84a6863e86050b9486100ccff/ds/823a75ea-98cf-4490-96a2-6e97f7aec483
-# tercenCtx = ctx.TercenContext(workflowId="047abdf84a6863e86050b9486100ccff", stepId="b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d",
+# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/2eb7b60f-8edc-4b03-9795-eb493682c64f
+# tercenCtx = ctx.TercenContext(workflowId="047abdf84a6863e86050b9486100ccff", stepId="2eb7b60f-8edc-4b03-9795-eb493682c64f",
                     # serviceUri = "http://127.0.0.1:5402/")
 tercenCtx = ctx.TercenContext()
 

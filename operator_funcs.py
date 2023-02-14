@@ -7,7 +7,7 @@ import numpy as np
 # Cannot handle the table from the Embryod example...
 def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   #, '.ri'
-  sdf = tercenCtx.select_sparse(wide=True)
+  sdf = tercenCtx.select_sparse(wide=True).transpose()
     
   # dfCol = tercenCtx.cselect(tercenCtx.context.cnames)
   # dfCol[".ci"] = range(0, len(dfCol) )
@@ -64,10 +64,10 @@ def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   dfOut.columns = ["PHATE_1", "PHATE_2"]
 
   # dfOut[".ci"] = df[".ci"]
-  dfOut[".ri"] = np.ndarray.astype(np.asarray(range(0, len(dfOut))), np.int32)
+  dfOut[".ci"] = np.ndarray.astype(np.asarray(range(0, sdf.shape[1])), np.int32)
   # dfOut["Batch"] = df["Batch"] #range(0, len(dfOut))
 
-  
+  sdf.shape
   
 
   return dfOut
