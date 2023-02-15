@@ -1,5 +1,5 @@
 git+https://github.com/tercen/pytson@1.6.1#egg=pytson
-git+https://github.com/tercen/tercen_python_client@0.2.0
+git+https://github.com/tercen/tercen_python_client@0.2.1
 
 numpy==1.23.5
 pandas==1.1.5

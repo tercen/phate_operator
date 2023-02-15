@@ -39,7 +39,7 @@ jobs:
           docker push $DOCKER_IMAGE:$TAG
           docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest
           docker push $DOCKER_IMAGE:latest
-      - uses: tercen/tercen_action@0.1.1
+      - uses: tercen/actions/start-tercen@0.2.5
       - name: Install client dependencies
         run: |
           python3 -m pip install --upgrade pip
