@@ -7,7 +7,7 @@ import numpy as np
 # Cannot handle the table from the Embryod example...
 def fit_phate(tercenCtx:ctx.TercenContext) -> pd.DataFrame:
   #, '.ri'
-  sdf = tercenCtx.select_sparse(wide=True).transpose()
+  sdf = tercenCtx.select_sparse_deprecated(wide=True).transpose()
     
   # dfCol = tercenCtx.cselect(tercenCtx.context.cnames)
   # dfCol[".ci"] = range(0, len(dfCol) )
