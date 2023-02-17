@@ -21,12 +21,12 @@ tercenCtx = ctx.TercenContext()
 #      Ensure op can work with multilevel columns/rows
 
 
-nDim = tercenCtx.operator_property('NumDim', typeFn=float, default=2)
-knn = tercenCtx.operator_property('KNN', typeFn=float, default=5)
-decay = tercenCtx.operator_property('Decay', typeFn=float, default=40)
+nDim = tercenCtx.operator_property('NumDim', typeFn=int, default=2)
+knn = tercenCtx.operator_property('KNN', typeFn=int, default=5)
+decay = tercenCtx.operator_property('Decay', typeFn=int, default=40)
 t = tercenCtx.operator_property('t', typeFn=str, default='auto')
 if t != 'auto':
-    t = float(t)
+    t = int(t)
 gamma = tercenCtx.operator_property('Gamma', typeFn=float, default=1)
 
 
