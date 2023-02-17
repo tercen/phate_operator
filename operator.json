@@ -4,13 +4,37 @@
   "tags": ["dimension reduction"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/phate_operator"],
-  "container":"tercen/phate_operator:0.0.19",  
+  "container":"tercen/phate_operator:0.1.0",  
   "properties": [
     {
       "kind": "DoubleProperty",
-      "name": "Test",
+      "name": "NumDim",
+      "defaultValue": 2,
+      "description": "Number of dimensions in which the data will be embedded."
+    },
+    {
+      "kind": "DoubleProperty",
+      "name": "KNN",
+      "defaultValue": 5,
+      "description": "Number of nearest neighbors on which to build kernel."
+    },
+    {
+      "kind": "DoubleProperty",
+      "name": "Decay",
+      "defaultValue": 40,
+      "description": "Sets decay rate of kernel tails."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "t",
+      "defaultValue": "auto",
+      "description": "Power to which the diffusion operator is powered sets the level of diffusion."
+    },
+    {
+      "kind": "DoubleProperty",
+      "name": "Gamma",
       "defaultValue": 1,
-      "description": "Test property."
+      "description": "Informational distance constant between -1 and 1. gamma=1 gives the PHATE log potential, gamma=0 gives a square root potential."
     }
   ]
 }

@@ -4,6 +4,8 @@ import tercen.util.helper_functions as utl
 import pandas as pd
 import numpy as np
 from operator_funcs import fit_phate
+
+
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/2eb7b60f-8edc-4b03-9795-eb493682c64f
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/ae4799ab-0312-47dc-a1dd-2b2edef63fec # 2.3Gb
@@ -13,28 +15,22 @@ from operator_funcs import fit_phate
 tercenCtx = ctx.TercenContext()
 
 
-    # for p in props:
-
-# op.value = function(name, type=as.character, default=NULL){
-#       property = Find(function(propertyValue) propertyValue$name == name ,
-#                       self$query$operatorSettings$operatorRef$propertyValues)
-#       if (is.null(property)) return(default)
-#       return(type(property$value))
-#     },
-    # def operator_property(self, type="character", default=None):
-        # self.context.cubeQuery.operatorSettings.operatorRef.propertyValues
-        # pass
-
-
-
 # TODO Add diagnostic plot
 #      Save as relation
+#      Ensure property values are within range
+#      Ensure op can work with multilevel columns/rows
 
-# df = fit_phate(tercenCtx)
-props = tercenCtx.context.cubeQuery.operatorSettings.operatorRef.propertyValues
-propVal = str(props)
 
-df = pd.DataFrame({"PropVal": np.asarray([propVal]), ".ci":np.ndarray.astype(np.asarray([0]), np.int32)})
+nDim = tercenCtx.operator_property('NumDim', typeFn=float, default=2)
+knn = tercenCtx.operator_property('KNN', typeFn=float, default=5)
+decay = tercenCtx.operator_property('Decay', typeFn=float, default=40)
+t = tercenCtx.operator_property('t', typeFn=str, default='auto')
+if t != 'auto':
+    t = float(t)
+gamma = tercenCtx.operator_property('Gamma', typeFn=float, default=1)
+
+
+df = fit_phate(tercenCtx, nDim=nDim, knn=knn, decay=decay, t=t, gamma=gamma)
 df = tercenCtx.add_namespace(df) 
 
 #dfRel = utl.as_relation(df)
