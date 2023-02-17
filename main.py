@@ -5,9 +5,21 @@ from operator_funcs import fit_phate
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/2eb7b60f-8edc-4b03-9795-eb493682c64f
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/ae4799ab-0312-47dc-a1dd-2b2edef63fec # 2.3Gb
-# tercenCtx = ctx.TercenContext(workflowId="047abdf84a6863e86050b9486100ccff", stepId="ae4799ab-0312-47dc-a1dd-2b2edef63fec",
-                    # serviceUri = "http://127.0.0.1:5402/")
+# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/dcf305df-2f88-4ba6-89bf-06c01349a1ca # 1Gb
+#tercenCtx = ctx.TercenContext(workflowId="047abdf84a6863e86050b9486100ccff", stepId="dcf305df-2f88-4ba6-89bf-06c01349a1ca",
+#                    serviceUri = "http://127.0.0.1:5402/")
 tercenCtx = ctx.TercenContext()
+
+
+# op.value = function(name, type=as.character, default=NULL){
+#       property = Find(function(propertyValue) propertyValue$name == name ,
+#                       self$query$operatorSettings$operatorRef$propertyValues)
+#       if (is.null(property)) return(default)
+#       return(type(property$value))
+#     },
+    # def operator_property(self, type="character", default=None):
+        # self.context.cubeQuery.operatorSettings.operatorRef.propertyValues
+        # pass
 
 # TODO Add diagnostic plot
 #      Save as relation
