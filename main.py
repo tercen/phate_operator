@@ -2,6 +2,7 @@ from tercen.client import context as ctx
 import tercen.util.helper_functions as utl
 
 import pandas as pd
+import numpy as np
 from operator_funcs import fit_phate
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d
 # http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/2eb7b60f-8edc-4b03-9795-eb493682c64f
@@ -33,8 +34,7 @@ tercenCtx = ctx.TercenContext()
 props = tercenCtx.context.cubeQuery.operatorSettings.operatorRef.propertyValues
 propVal = str(props)
 
-
-df = pd.DataFrame({"PropVal":0, ".ci":0})
+df = pd.DataFrame({"PropVal": np.asarray([propVal]), ".ci":np.ndarray.astype(np.asarray([0]), np.int32)})
 df = tercenCtx.add_namespace(df) 
 
 #dfRel = utl.as_relation(df)
