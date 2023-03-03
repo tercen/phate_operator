@@ -11,7 +11,7 @@ def fit_phate(tercenCtx:ctx.TercenContext, nDim:float=2, knn:float=5,
 
 
   phateModel = phate.PHATE(n_components=nDim, knn=knn, decay=decay,
-                  t=t, gamma=gamma)
+                  t=t, gamma=gamma, n_jobs = -1)
 
 
   dfOut = pd.DataFrame( phateModel.fit_transform( sdf ))
