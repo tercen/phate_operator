@@ -14,11 +14,7 @@ from operator_funcs import fit_phate
 class TestOperator(unittest.TestCase):
     def setUp(self):
         envs = os.environ
-        if 'TERCEN_USERNAME' in envs:
-            username = envs['TERCEN_USERNAME']
-        else:
-            username = None
-
+        isLocal = False
         if 'TERCEN_PASSWORD' in envs:
             passw = envs['TERCEN_PASSWORD']
         else:
@@ -28,7 +24,20 @@ class TestOperator(unittest.TestCase):
             serviceUri = envs['TERCEN_URI']
         else:
             serviceUri = None
+        if 'TERCEN_USERNAME' in envs:
+            username = envs['TERCEN_USERNAME']
+        else:
+            isLocal = True
+            username = 'test'
+            passw = 'test'
+            conf = {}
+            with open("./unit_tests/env.conf") as f:
+                for line in f:
+                    if len(line.strip()) > 0:
+                        (key, val) = line.split(sep="=")
+                        conf[str(key)] = str(val).strip()
 
+            serviceUri = ''.join([conf["SERVICE_URL"], ":", conf["SERVICE_PORT"]])
 
         self.wkfBuilder = bld.WorkflowBuilder()
         self.wkfBuilder.create_workflow( 'python_auto_project', 'python_workflow')
@@ -38,17 +47,12 @@ class TestOperator(unittest.TestCase):
                         columns=[{"name":"GeneID", "type":"string"}],
                         rows=[{"name":"Seq", "type":"string"}])
 
-        if username is None: # Running locally
-            self.context = ctx.TercenContext(
-                            stepId=self.wkfBuilder.workflow.steps[1].id,
-                            workflowId=self.wkfBuilder.workflow.id)
-        else: # Running from Github Actions
-            self.context = ctx.TercenContext(
-                            username=username,
-                            password=passw,
-                            serviceUri=serviceUri,
-                            stepId=self.wkfBuilder.workflow.steps[1].id,
-                            workflowId=self.wkfBuilder.workflow.id)
+        self.context = ctx.TercenContext(
+                        username=username,
+                        password=passw,
+                        serviceUri=serviceUri,
+                        stepId=self.wkfBuilder.workflow.steps[1].id,
+                        workflowId=self.wkfBuilder.workflow.id)
 
         self.addCleanup(self.clear_workflow)
         
@@ -58,10 +62,13 @@ class TestOperator(unittest.TestCase):
     def test_row_col(self) -> None:
         df = fit_phate(self.context)
         
-        df = self.context.add_namespace(df) 
-        resDf = self.context.save_dev(df)
+        df = self.context.add_namespace(df)
+        resDf = self.context.save_dev(df) 
         
-      
+        # NOTE
+        # save_dev always return .ci and .ri columns, though they will not be present in the resulting table if all values are equal to 0
+        resDf.drop(".ri", inplace=True, axis=1)
+
         assert( not resDf is None )
         assert(resDf.shape == df.shape)
         for i in range(0, len(resDf.columns)):

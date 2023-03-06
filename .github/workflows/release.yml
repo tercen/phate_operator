@@ -39,13 +39,13 @@ jobs:
           docker push $DOCKER_IMAGE:$TAG
           docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest
           docker push $DOCKER_IMAGE:latest
-      - uses: tercen/actions/start-tercen@0.2.5
+      - uses: tercen/actions/start-tercen@main
       - name: Install client dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
-      # - name: Run UnitTests
-      #  run: python3 -m unittest unittests/test*
+      - name: Run UnitTests
+        run: python3 -m unittest unit_tests/test*
       - name: Build changelog
         id: Changelog
         uses: tercen/generate-changelog-action@master

@@ -16,9 +16,7 @@ def fit_phate(tercenCtx:ctx.TercenContext, nDim:float=2, knn:float=5,
 
   dfOut = pd.DataFrame( phateModel.fit_transform( sdf ))
 
-
-  
-  dfOut.columns = ["PHATE_1", "PHATE_2"]
+  dfOut.columns = [''.join(['PHATE_', str(i+1)]) for i in range(0, len(dfOut.columns))]
 
   dfOut[".ci"] = np.ndarray.astype(np.asarray(range(0, sdf.shape[0])), np.int32)
 
