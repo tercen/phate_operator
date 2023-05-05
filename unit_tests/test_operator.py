@@ -7,6 +7,7 @@ import os
 
 
 from tercen.client import context as ctx
+import tercen.util.helper_functions as utl
 import tercen.util.builder as bld
 from operator_funcs import fit_phate
 
@@ -61,9 +62,15 @@ class TestOperator(unittest.TestCase):
 
     def test_row_col(self) -> None:
         df = fit_phate(self.context)
-        
         df = self.context.add_namespace(df)
-        resDf = self.context.save_dev(df) 
+        
+        dfRel = utl.as_relation(df)
+        dfJoin = utl.as_join_operator(dfRel, self.context.cnames, 
+                        self.context.cnames)
+
+        
+        
+        resDf = self.context.save_relation_dev(dfJoin) 
         
         # NOTE
         # save_dev always return .ci and .ri columns, though they will not be present in the resulting table if all values are equal to 0

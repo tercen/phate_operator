@@ -6,12 +6,9 @@ import numpy as np
 from operator_funcs import fit_phate
 
 
-# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/b81b2ae0-e959-4b57-b3e7-19a6e6f6b34d
-# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/2eb7b60f-8edc-4b03-9795-eb493682c64f
-# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/ae4799ab-0312-47dc-a1dd-2b2edef63fec # 2.3Gb
-# http://127.0.0.1:5402/test/w/047abdf84a6863e86050b9486100ccff/ds/dcf305df-2f88-4ba6-89bf-06c01349a1ca # 1Gb
-# tercenCtx = ctx.TercenContext(workflowId="047abdf84a6863e86050b9486100ccff", stepId="2eb7b60f-8edc-4b03-9795-eb493682c64f",
-                    # serviceUri = "http://127.0.0.1:5402/")
+# http://127.0.0.1:5400/test/w/1363a5f9d61a415565cebfb6f1003019/ds/d48a3bfa-7153-41c5-bf73-31a1b931ddc1
+# tercenCtx = ctx.TercenContext(workflowId="1363a5f9d61a415565cebfb6f1003019", stepId="d48a3bfa-7153-41c5-bf73-31a1b931ddc1",
+                    # serviceUri = "http://127.0.0.1:5400/")
 tercenCtx = ctx.TercenContext()
 
 
@@ -33,10 +30,24 @@ gamma = tercenCtx.operator_property('Gamma', typeFn=float, default=1)
 df = fit_phate(tercenCtx, nDim=nDim, knn=knn, decay=decay, t=t, gamma=gamma)
 df = tercenCtx.add_namespace(df) 
 
-#dfRel = utl.as_relation(df)
-#dfJoin = utl.as_join_operator(dfRel, tercenCtx.context.cnames, 
-#                tercenCtx.context.cnames)
-#resDf = tercenCtx.context.save_relation(dfJoin)
+df[".i"] = df[".ci"]
 
-tercenCtx.save(df)
 
+crel = tercenCtx.get_crelation()
+
+
+rids_factor = ''.join((crel.id, "._rids"))
+
+
+dfRel = utl.as_relation(df)
+dfRel = utl.left_join_relation(dfRel, crel, ".i", rids_factor)
+
+
+dfJoin = utl.as_join_operator(dfRel, tercenCtx.cnames, 
+                tercenCtx.cnames[0] )
+tercenCtx.save_relation(dfJoin)
+
+
+
+# tercenCtx.save(df)
+#
