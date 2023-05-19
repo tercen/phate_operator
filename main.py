@@ -196,6 +196,6 @@ dfJoin = utl.as_join_operator(dfRel, tercenCtx.cnames,
 
 
 # tercenCtx.save_relation([ dfJoin, imgDfJoin ])
-tercenCtx.save([df, imgDf])
+tercenCtx.save(df)
 
 
