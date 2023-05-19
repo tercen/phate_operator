@@ -6,7 +6,7 @@ import numpy as np
 from operator_funcs import fit_phate
 
 import matplotlib.pyplot as plt
-import os, hashlib, base64
+import os, hashlib, base64, tempfile, random, string
 
 
 
@@ -112,12 +112,14 @@ df = fit_phate(tercenCtx, nDim=nDim, knn=knn, decay=decay, t=t, gamma=gamma)
 
 plt.scatter( df["PHATE_1"], df["PHATE_2"],
             s=4 )
+letters = string.ascii_lowercase
+fname = ''.join(random.choice(letters) for i in range(12))
+file_path = ''.join((tempfile.gettempdir(), '/', fname,
+         '.png'))
 
-
-plt.savefig("/home/thiago/Pictures/tmp.png" )
+plt.savefig(file_path)
 plt.close()
 
-file_path = "/home/thiago/Pictures/tmp.png"
 filename = None
 
 if filename is None:
@@ -133,7 +135,6 @@ elif ftype == '.pdf':
     mimetype = "image/pdf"
 else:
     mimetype = 'unknown'
-pass
 
 checksum = hashlib.md5(open(file_path,'rb').read()).hexdigest()
 
