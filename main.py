@@ -123,7 +123,7 @@ plt.close()
 filename = None
 
 if filename is None:
-    filename = os.path.dirname(file_path)
+    filename = os.path.dirname(fname)
 
 ftype = os.path.splitext(file_path)[1]
 
@@ -150,9 +150,10 @@ imgDf = pd.DataFrame({
     "filename":filename,
     "mimetype":mimetype,
     "checksum":checksum,
-    ".content":outs
+    ".content":outs,
+    ".ci":0
 }, index=[0])
-
+imgDf['.ci'] = pd.to_numeric(imgDf['.ci'], errors="coerce").fillna(0).astype('int32')
 
 imgDfRel = utl.as_relation(imgDf)
 imgDfJoin = utl.as_join_operator(imgDfRel, list(), list() )
@@ -160,7 +161,7 @@ imgDfJoin = utl.as_join_operator(imgDfRel, list(), list() )
 df = tercenCtx.add_namespace(df) 
 
 df[".i"] = df[".ci"]
-df = df.drop(".ci", axis=1)
+# df = df.drop(".ci", axis=1)
 
 crel = tercenCtx.get_crelation()
 
@@ -194,6 +195,7 @@ dfJoin = utl.as_join_operator(dfRel, tercenCtx.cnames,
 
 
 
-tercenCtx.save_relation([ dfJoin, imgDfJoin ])
+# tercenCtx.save_relation([ dfJoin, imgDfJoin ])
+tercenCtx.save([df, imgDf])
 
 
